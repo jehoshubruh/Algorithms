@@ -1,82 +1,176 @@
 #include <iostream>
 #include <string>
-#include <stack>
 using namespace std;
 
-// Stacks. must have push, pop, peek, isempty, size, exit options. 
-// user defines the size of stack, 
-// gives a message when the stack is full
 
-void menu(stack <float> &n, int &size){
+void push(string stack[], int &top, int capacity) {
 
-    int c;
-    float x;
+    system ("cls");
 
-    while (true) {
+    string value;
 
-        cout << "What would you like to do to the stack?\n[1] Add an element\n[2] Remove recent element\n[3] Checks recent element\n[4] Checks if the stack is empty\n[5] Shows the size of the stack\n\n[0] Exit program\n\n\nInput: ";
-        cin >> c;
+    if (top == capacity - 1) {
 
-        switch (c) {
+        cout << "Stack is FULL! Cannot push more data.\n\n";
 
-            case 0:
-                return;
+    } else {
 
-            case 1:
-                cout << "Enter value: ";
-                cin >> x;
-                n.push(x);
-                break;
-        
-            case 2:
-                cout << n.top() << "was removed!";
-                n.pop();
-                break;
+        cout << "Enter value to push: ";
+        cin.ignore();
+        getline(cin, value);
 
-            case 3:
-                cout << n.top();
-                break;
+        top++;
+        stack[top] = value;
 
-            case 4:
-                if (n.empty()) {
-
-                    cout << "Stack is empty";
-
-                } else {
-
-                    cout << "Not empty, carry on...";
-
-                }
-                break;
-
-            case 5:
-                cout << size;
-                break;
-
-            default:
-                cout << "Invalid option! Try again!";
-                break;
-
-        }
-
-        cout << "Goodbye!";
+        cout << "Pushed '" << value << "' into stack.\n\n";
 
     }
 
 }
 
+
+
+void pop(string stack[], int &top) {
+
+    system("cls");
+
+    if (top == -1) {
+
+        cout << "Stack is EMPTY! Nothing to pop.\n\n";
+
+    } else {
+
+        cout << "Popped '" << stack[top] << "' from stack.\n\n";
+        top--;
+    }
+}
+
+
+
+void peek(string stack[], int top) {
+
+    system("cls");
+
+    if (top == -1) {
+
+        cout << "Stack is EMPTY! No top element.\n\n";
+
+    } else {
+
+        cout << "Top element: " << stack[top] << endl<<endl;
+
+    }
+}
+
+
+
+bool isEmpty(int top) {
+
+    system("cls");
+
+    return top == -1;
+
+}
+
+
+
+int size(int top) {
+
+    system("cls");
+
+    return top + 1;
+
+}
+
+
+
+void menu(string stack[], int &top, int capacity) {
+    
+    system("cls");    
+    
+    int c;
+
+    do {
+
+        cout << "What would you like to do with your stack?\n";
+        cout << "[1] Push\n";
+        cout << "[2] Pop\n";
+        cout << "[3] Peek (top)\n";
+        cout << "[4] IsEmpty\n";
+        cout << "[5] Size\n\n";
+        cout << "[0] Exit\n";
+        cout << "Choose: ";
+        cin >> c;
+
+        switch (c) {
+
+            case 1: 
+                push(stack, top, capacity); 
+                break;
+
+            case 2: 
+                pop(stack, top);
+                break;
+
+            case 3: 
+                peek(stack, top); 
+                break;
+
+            case 4:
+                if (isEmpty(top)) {
+
+                    cout << "Stack is EMPTY.\n\n";
+
+                } else {
+                    
+                    cout << "Stack is NOT empty.\n\n";
+
+                }
+
+                break;
+
+            case 5:
+                cout << "Stack size: " << size(top) << "/" << capacity << endl<<endl;
+                break;
+
+            case 0:
+                cout << "Exiting program...\n\n";
+                break;
+
+            default:
+                cout << "Invalid option. Try again.\n\n";
+
+        }
+
+    } while (c != 0);
+
+}
+
+
+
 int main() {
-    
-    system ("cls");
-    int size;
 
-    cout << "How big do you want the stack to be?\nInput: ";
-    cin >> size;
+    system("cls");
 
-    stack <float> n;
+    int capacity;
+    string stack[100]; 
+    int top = -1;      
 
-    menu(n, size);
+    do {
 
-    
+        cout << "Enter stack capacity (min 1 - max 100): ";
+        cin >> capacity;
+
+        if (capacity > 100 || capacity <= 0){
+
+            cout << "\nInvalid option! Try again...\n";
+
+        }
+
+    } while (capacity > 100 || capacity <= 0);
+
+    menu(stack, top, capacity);
+
     return 0;
+
 }
